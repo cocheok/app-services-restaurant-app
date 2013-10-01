@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>TrainingApp</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+        <link href="css/codiqa.ext.css" rel="stylesheet" />
+        <link href="css/jquery.mobile-1.3.1.css" rel="stylesheet" />
+
+        <script src="js/jquery-1.9.1.js"></script>
+        <script src="js/jquery.mobile-1.3.1.js"></script>
+        <script src="js/codiqa.ext.js"></script>
+        <script src="js/trainingapp.js"></script>
+        <script src="js/apigee.js"></script>
+
+        <script type="text/javascript">
+
+            // Initializing the SDK
+            var client = new Apigee.Client({
+                orgName:'steventraut', // Your Apigee.com username for App Services
+                appName:'sandbox' // Your Apigee App Services app name
+            });
+
+            // Reading data
+            var restaurants = null;
+
+            $(document).ready( function() {
+                $("#add-button").bind("click", addRestaurant);
+                navigator.geolocation.getCurrentPosition(listRestaurants);
+//                listRestaurants();
+            });
+
+            function listRestaurants(position) {
+
+//            restaurants = new Apigee.Collection({ "client":client, "type":"restaurant" });
+              restaurants = new Apigee.Collection({"client":client, "type":"restaurants", "qs":{"ql":"location within 16000 of "+position.coords.latitude+", "+position.coords.longitude}});
+
+              restaurants.fetch(
+                    function() { // Success
+                        $('#restaurant-list').empty();
+                        
+                        while(restaurants.hasNextEntity()) {                        
+                            var restaurant = restaurants.getNextEntity();
+                            
+                            $('#restaurant-list').append('<li data-theme="c">' +
+                            '<h3>' + restaurant.get('name') + '</h3>' +
+                            '<p>' + restaurant.get('city') + '</p>' +
+                            '</li>');
+            
+//                                alert(restaurant.get("name"));
+                        }
+                        $('#restaurant-list').listview('refresh');
+                    }, 
+                    
+                    function() { // Failure
+                        alert("read failed");
+                    }
+                );
+            }
+
+            function addRestaurant (){
+                var restaurant = { 
+    					"name":$("#name-field").val(),
+    					"city":$("#city-field").val()
+                }
+                
+                restaurants.addEntity(restaurant, function (error, response) {
+                    if (error) { 
+                        alert("write failed");
+                    } else { 
+    					//Reload the list of restaurants
+                        listRestaurants();
+    					// Return to the restaurant list
+    					history.back();
+                    }
+                });
+            }            
+        </script>
+    </head>
+
+    <body>
+        <div data-role="page" data-control-title="Home" id="home-page">
+            <div data-theme="b" data-role="header">
+                <a data-role="button" href="#add-restaurant-page" data-icon="plus" data-iconpos="right"
+                    data-rel="dialog" class="ui-btn-right"> Add </a>
+                <h3> My Restaurants </h3>
+            </div>
+            <div data-role="content">
+                <ul id="restaurant-list" data-role="listview" data-divider-theme=""
+                    data-inset="false">
+                    <li data-theme="c">
+                        <h3>First Restaurant</h3>
+                        <p>First Rating</p>
+                    </li>
+                    <li data-theme="c">
+                        <h3>Second Restaurant</h3>
+                        <p>Second Rating</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-role="page" data-control-title="AddRestaurant" id="add-restaurant-page">
+            <div data-theme="b" data-role="header">
+                <h3> Add Restaurant </h3>
+            </div>
+            <div data-role="content">
+                <form>
+                        <label for="name-field"> Name </label>
+                        <textarea name="" id="name-field" placeholder="" data-mini="true"></textarea>
+                        <label for="city-field"> City </label>
+                        <textarea name="" id="city-field" placeholder="" data-mini="true"></textarea>
+                </form>
+                <a id="cancel-button" data-role="button" data-inline="true" href="#home-page"> Cancel </a>
+                <button id="add-button" data-inline="true" data-theme="b"> Create </button>
+            </div>
+        </div>
+    </body>
+</html>

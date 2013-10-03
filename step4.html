@@ -33,14 +33,15 @@
             var restaurants = new Apigee.Collection({ "client":client, "type":"restaurant" });
             
             function listRestaurants() {
-				restaurants.fetch(
+                restaurants.fetch(
                     function() { // Success
                         $('#restaurant-list').empty();
                         
                         while(restaurants.hasNextEntity()) {                        
                             var restaurant = restaurants.getNextEntity();
                             
-                            $('#restaurant-list').append('<li data-theme="c">' +
+                            $('#restaurant-list').append(
+                            '<li data-theme="c">' +
                             '<h3>' + restaurant.get('name') + '</h3>' +
                             '<p>' + restaurant.get('city') + '</p>' +
                             '</li>');
@@ -57,17 +58,17 @@
             function addRestaurant (){
                 var restaurant = { 
                     "name":$("#name-field").val(),
-    				"city":$("#city-field").val()
+                    "city":$("#city-field").val()
                 }
                 
                 restaurants.addEntity(restaurant, function (error, response) {
                     if (error) { 
                         alert("write failed");
                     } else { 
-    					//Reload the list of restaurants
+                        //Reload the list of restaurants
                         listRestaurants();
-    					// Return to the restaurant list
-    					history.back();
+                        // Return to the restaurant list
+                        history.back();
                     }
                 });
             }            

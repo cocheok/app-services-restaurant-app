@@ -25,7 +25,6 @@
             });
 
             $(document).ready( function() {
-                $("#add-button").bind("click", addRestaurant);
                 listRestaurants();
             });
             
@@ -44,8 +43,6 @@
                             '<h3>' + restaurant.get('name') + '</h3>' +
                             '<p>' + restaurant.get('city') + '</p>' +
                             '</li>');
-            
-//                                alert(restaurant.get("name")); // Output the restaurant's name
                         }
                         $('#restaurant-list').listview('refresh');
                     }, 
@@ -56,23 +53,6 @@
                 );
             }
 
-            function addRestaurant (){
-                var restaurant = { 
-    					"name":$("#name-field").val(),
-    					"city":$("#city-field").val()
-                }
-                
-                restaurants.addEntity(restaurant, function (error, response) {
-                    if (error) { 
-                        alert("write failed");
-                    } else { 
-    					//Reload the list of restaurants
-                        listRestaurants();
-    					// Return to the restaurant list
-    					history.back();
-                    }
-                });
-            }            
         </script>
     </head>
 
@@ -97,7 +77,7 @@
                 </ul>
             </div>
         </div>
-
+        
         <div data-role="page" data-control-title="AddRestaurant" id="add-restaurant-page">
             <div data-theme="b" data-role="header">
                 <h3> Add Restaurant </h3>
@@ -113,5 +93,6 @@
                 <button id="add-button" data-inline="true" data-theme="b"> Create </button>
             </div>
         </div>
+
     </body>
 </html>

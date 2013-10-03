@@ -2,25 +2,25 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>TrainingApp</title>
+        <title>RestaurantApp</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-        <link href="css/codiqa.ext.css" rel="stylesheet" />
-        <link href="css/jquery.mobile-1.3.1.css" rel="stylesheet" />
+        <link href="css/codiqa.ext.min.css" rel="stylesheet" />
+        <link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet" />
 
-        <script src="js/jquery-1.9.1.js"></script>
-        <script src="js/jquery.mobile-1.3.1.js"></script>
-        <script src="js/codiqa.ext.js"></script>
-        <script src="js/trainingapp.js"></script>
-        <script src="js/apigee.js"></script>
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/jquery.mobile-1.3.1.min.js"></script>
+        <script src="js/codiqa.ext.min.js"></script>
+        <script src="js/apigee.min.js"></script>
+        <script src="js/restaurantapp.js"></script>
 
         <script type="text/javascript">
 
             // Initializing the SDK
             var client = new Apigee.Client({
-                orgName:'steventraut', // Your Apigee.com username for App Services
+                orgName:'YOUR ORG NAME', // Your Apigee.com username for App Services
                 appName:'sandbox' // Your Apigee App Services app name
             });
 
@@ -45,7 +45,8 @@
                         while(restaurants.hasNextEntity()) {                        
                             var restaurant = restaurants.getNextEntity();
                             
-                            $('#restaurant-list').append('<li data-theme="c">' +
+                            $('#restaurant-list').append(
+                                '<li data-theme="c">' +
                             '<h3>' + restaurant.get('name') + '</h3>' +
                             '<p>' + restaurant.get('city') + '</p>' +
                             '</li>');
@@ -63,18 +64,18 @@
 
             function addRestaurant (){
                 var restaurant = { 
-    					"name":$("#name-field").val(),
-    					"city":$("#city-field").val()
+                    "name":$("#name-field").val(),
+                    "city":$("#city-field").val()
                 }
                 
                 restaurants.addEntity(restaurant, function (error, response) {
                     if (error) { 
                         alert("write failed");
                     } else { 
-    					//Reload the list of restaurants
+                        //Reload the list of restaurants
                         listRestaurants();
-    					// Return to the restaurant list
-    					history.back();
+                        // Return to the restaurant list
+                        history.back();
                     }
                 });
             }            

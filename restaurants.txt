@@ -1,16 +1,18 @@
 
-Crook's Corner
-Chapel Hill
-latitude: 35.90991
-longitude: -79.06487
+name: Amelia's
+city: Jersey City
+location:
+  latitude: 40.713665
+  longitude: -74.039873
 
-The Q Shack
-Durham
-latitude: 35.97463
-longitude: -78.92429
+name: Iron Monkey
+city: Jersey City
+location:
+  latitude: 40.716008
+  longitude: -74.036028
 
-
-Angus Barn
-Raleigh
-latitude: 35.89852
-longitude: -78.76413
+name: Amanda's
+city: Hoboken
+location:
+  latitude: 40.747637
+  longitude: -74.028122

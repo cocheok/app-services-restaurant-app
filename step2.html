@@ -19,36 +19,51 @@
 
         <script type="text/javascript">
 
-            // Initializing the SDK
+            // Initialize the SDK by telling App Services which organization and application
+            // this client app is making requests from.
             var client = new Apigee.Client({
-                orgName:'YOUR ORG NAME',
-                appName:'sandbox' // Your Usergrid app name
+                orgName:'yourorgname', // Your organization name. You'll find this in the admin portal.
+                appName:'sandbox' // Your App Services app name. It's in the admin portal.
             });
 
+            // When HTML code on the page has finished loading, call 
+            // the listRestaurants function.
             $(document).ready( function() {
                 listRestaurants();
             });
 
-            // Reading data
+            // Create a local variable to hold restaurant data from the database. That way,
+            // we can handle it in our code.
             var restaurants = new Apigee.Collection({ "client":client, "type":"restaurant" });
 
+            // A function to build a list of the restaurants in the collection.
             function listRestaurants(){
+              // Fetch restaurant entities from App Services.
               restaurants.fetch(
-                  function() { // Success
-  //                  $('#restaurant-list').empty();
+                  // If the fetch is successful...
+                  function() { 
+                   // // Empty the HTML list of restaurants.
+                   // $('#restaurant-list').empty();
+                      // Loop through restaurants in the collection, wrapping values from 
+                      // each in HTML for inclusion in the UI.
                       while(restaurants.hasNextEntity()) {
                           var restaurant = restaurants.getNextEntity();
+                          // Build out the list with jQuery.
                           $('#restaurant-list').append(
                         '<li data-theme="c">' +
                             '<h2>' + restaurant.get("name") + '</h2>' +
                             '<p>' + restaurant.get("city") + '</p>' +
                         '</li>');
-  //                                alert(restaurant.get("name")); // Output the restaurant's name
+                        // alert(restaurant.get("name")); // Output the restaurant's name
                       }
-  //                    $('#restaurant-list').listview('refresh');
+                      // Refresh the list using jQuery Mobile.
+                      $('#restaurant-list').listview('refresh');
 
-                  }, function() { // Failure
-                      alert("read failed");
+                  // Called if the collection request fails. You'd probably want
+                  // a more user-friendly and useful way to respond to this.
+                  }, function() {
+                      // You'll probably want a better message!
+                      alert("Read failed.");
                   }
               );
             }

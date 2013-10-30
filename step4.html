@@ -47,7 +47,7 @@
                         $('#restaurant-list').empty();
                         // Loop through restaurants in the collection, wrapping values from 
                         // each in HTML for inclusion in the UI.
-                        while(restaurants.hasNextEntity()) {                        
+                        while(restaurants.hasNextEntity()) {
                             var restaurant = restaurants.getNextEntity();
                           // Build out the list with jQuery.
                           $('#restaurant-list').append(
@@ -62,7 +62,7 @@
                     
                     // Called if the collection request fails. You'd probably want
                     // a more user-friendly and useful way to respond to this.
-                    function() { // Failure
+                    function() {
                         alert("read failed");
                     }
                 );

@@ -18,56 +18,77 @@
 
         <script type="text/javascript">
 
-            // Initializing the SDK
+            // Initialize the SDK by telling App Services which organization and application
+            // this client app is making requests from.
             var client = new Apigee.Client({
-                orgName:'YOUR ORG NAME', // Your Apigee.com username for App Services
-                appName:'sandbox' // Your Apigee App Services app name
+                orgName:'yourorgname', // Your organization name. You'll find this in the admin portal.
+                appName:'sandbox' // Your App Services app name. It's in the admin portal.
             });
 
+            // When HTML code on the page has finished loading, 
+            // bind the dialog's button to the addRestaurant function 
+            // and call the listRestaurants function.
             $(document).ready( function() {
                 $("#add-button").bind("click", addRestaurant);
                 listRestaurants();
             });
             
-            // Reading data
+            // Create a local variable to hold restaurant data from the database. That way,
+            // we can handle it in our code.
             var restaurants = new Apigee.Collection({ "client":client, "type":"restaurant" });
             
+            // A function to build a list of the restaurants in the collection.
             function listRestaurants() {
+                // Fetch restaurant entities from App Services.
                 restaurants.fetch(
-                    function() { // Success
+                    // If the fetch is successful...
+                    function() { 
+                        // Empty the HTML list of restaurants.
                         $('#restaurant-list').empty();
-                        
+                        // Loop through restaurants in the collection, wrapping values from 
+                        // each in HTML for inclusion in the UI.
                         while(restaurants.hasNextEntity()) {                        
                             var restaurant = restaurants.getNextEntity();
-                            
-                            $('#restaurant-list').append(
-                            '<li data-theme="c">' +
-                            '<h3>' + restaurant.get('name') + '</h3>' +
-                            '<p>' + restaurant.get('city') + '</p>' +
-                            '</li>');
+                          // Build out the list with jQuery.
+                          $('#restaurant-list').append(
+                        '<li data-theme="c">' +
+                            '<h2>' + restaurant.get("name") + '</h2>' +
+                            '<p>' + restaurant.get("city") + '</p>' +
+                        '</li>');
                         }
+                        // Refresh the list using jQuery Mobile.
                         $('#restaurant-list').listview('refresh');
                     }, 
                     
+                    // Called if the collection request fails. You'd probably want
+                    // a more user-friendly and useful way to respond to this.
                     function() { // Failure
                         alert("read failed");
                     }
                 );
             }
 
+            // A function to send data about a new restaurant
+            // to the database.
             function addRestaurant (){
+                // Get values from the entry fields and
+                // assign them as values to the entity's name and city
+                // properties of a restaurant entity.
                 var restaurant = { 
                     "name":$("#name-field").val(),
                     "city":$("#city-field").val()
                 }
                 
+                // Send the new restaurant entity to App Services.
                 restaurants.addEntity(restaurant, function (error, response) {
+                    // If the attempt fails, display an error message.
                     if (error) { 
-                        alert("write failed");
+                        // You'll need a better message!
+                        alert("Write failed.");
                     } else { 
-                        //Reload the list of restaurants
+                        //Reload the list of restaurants from the database.
                         listRestaurants();
-                        // Return to the restaurant list
+                        // Return to the page that has the restaurant list.
                         history.back();
                     }
                 });
@@ -76,6 +97,7 @@
     </head>
 
     <body>
+        <!-- The home page. --> 
         <div data-role="page" data-control-title="Home" id="home-page">
             <div data-theme="b" data-role="header">
                 <a data-role="button" href="#add-restaurant-page" data-icon="plus"
@@ -97,6 +119,7 @@
             </div>
         </div>
 
+        <!-- The Add Restaurant page. -->
         <div data-role="page" data-control-title="AddRestaurant" id="add-restaurant-page">
             <div data-theme="b" data-role="header">
                 <h3> Add Restaurant </h3>

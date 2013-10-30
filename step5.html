@@ -25,6 +25,9 @@
                 appName:'sandbox' // Your App Services app name. It's in the admin portal.
             });
 
+            // A variable that we can use from multiple functions in the code.
+            var restaurants = null;
+
             // When HTML code on the page has finished loading, 
             // bind the dialog's button to the addRestaurant function 
             // and call getCurrentPosition to retrieve our coordinates
@@ -34,9 +37,6 @@
                 navigator.geolocation.getCurrentPosition(listRestaurants);
 //                listRestaurants();
             });
-
-            // A variable that we can use from multiple functions in the code.
-            var restaurants = null;
 
             // A function to build a list of the restaurants in the collection.
             function listRestaurants(position) {

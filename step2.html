@@ -26,15 +26,15 @@
                 appName:'sandbox' // Your App Services app name. It's in the admin portal.
             });
 
+            // Create a local variable to hold restaurant data from the database. That way,
+            // we can handle it in our code.
+            var restaurants = new Apigee.Collection({ "client":client, "type":"restaurant" });
+
             // When HTML code on the page has finished loading, call 
             // the listRestaurants function.
             $(document).ready( function() {
                 listRestaurants();
             });
-
-            // Create a local variable to hold restaurant data from the database. That way,
-            // we can handle it in our code.
-            var restaurants = new Apigee.Collection({ "client":client, "type":"restaurant" });
 
             // A function to build a list of the restaurants in the collection.
             function listRestaurants(){

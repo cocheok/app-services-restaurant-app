@@ -1,18 +1,26 @@
+{
+	"name":"Amelia's",
+	"city":"Jersey City",
+	"location":{
+  		"latitude":"40.713665",
+  		"longitude":"-74.039873"	
+  	}
+}
 
-name: Amelia's
-city: Jersey City
-location:
-  latitude: 40.713665
-  longitude: -74.039873
+{
+	"name":"Iron Monkey",
+	"city":"Jersey City",
+	"location":{
+  		"latitude":"40.716008",
+  		"longitude":"-74.036028"
+  	}
+}
 
-name: Iron Monkey
-city: Jersey City
-location:
-  latitude: 40.716008
-  longitude: -74.036028
-
-name: Amanda's
-city: Hoboken
-location:
-  latitude: 40.747637
-  longitude: -74.028122
+{
+	"name":"Amanda's",
+	"city":"Hoboken",
+	"location":{
+  		"latitude":"40.747637",
+  		"longitude":"-74.028122"
+  	}
+}
